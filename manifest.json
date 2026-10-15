@@ -2,7 +2,7 @@
   "name": "ระบบติดตามการเรียกเก็บ รพ.ห้วยแถลง",
   "short_name": "เรียกเก็บ รพ.ห้วยแถลง",
   "start_url": "./",
-  "display": "browser",
+  "display": "standalone",
   "background_color": "#FFFFFF",
   "theme_color": "#0D4686",
   "icons": [

@@ -9,26 +9,42 @@
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0D4686">
 <meta name="apple-mobile-web-app-title" content="เรียกเก็บ">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
   body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: Tahoma, sans-serif; background: #F2F6FA; color: #13263B; text-align: center; padding: 16px; box-sizing: border-box; }
   .card { background: #FFFFFF; border-radius: 16px; padding: 28px 24px; box-shadow: 0 8px 24px rgba(13,70,134,.08); max-width: 360px; width: 100%; }
   img { width: 96px; height: 96px; }
   a { display: block; margin-top: 18px; background: #0D4686; color: #FFFFFF; text-decoration: none; padding: 12px; border-radius: 10px; font-weight: bold; }
-  p { color: #5F7186; font-size: 14px; }
+  p { color: #5F7186; font-size: 14px; line-height: 1.6; }
+  #howto { margin-top: 18px; padding-top: 12px; border-top: 1px solid #E0E8F0; }
+  #howto b { color: #0D4686; }
 </style>
 </head>
 <body>
 <div class="card">
   <img src="icon-192.png" alt="โลโก้โรงพยาบาลห้วยแถลง">
   <h2>ระบบติดตามการเรียกเก็บ</h2>
-  <p>กำลังเปิดระบบ…</p>
+  <p id="msg">กำลังเปิดระบบ…</p>
   <a id="go" href="#">เปิดระบบ</a>
+  <div id="howto" hidden>
+    <p><b>เพิ่มไอคอนลงหน้าจอจากหน้านี้</b></p>
+    <p>iPhone: กดปุ่มแชร์ ⬆︎ ของ Safari → เพิ่มไปยังหน้าจอโฮม<br>Android: กด ⋮ ของ Chrome → เพิ่มลงในหน้าจอหลัก</p>
+  </div>
 </div>
 <script>
   // วาง URL เว็บแอปจาก Apps Script (Deploy > Web app URL) ระหว่างเครื่องหมาย ' '
   const APP_URL = 'https://script.google.com/macros/s/AKfycbxIsIXAL4g-fr9iej-arTgjKiEBYs6WzZKVdCfS3UvJf2J3yaNxK7YaO2wcwkNvXCgv3A/exec';
   document.getElementById('go').href = APP_URL;
-  if (APP_URL.startsWith('https://')) setTimeout(() => { location.href = APP_URL; }, 600);
+  // เปิดจากไอคอนบนหน้าจอ: พาเข้าระบบทันที / เปิดจากเบราว์เซอร์: ให้เพิ่มไอคอนจากหน้านี้ก่อน
+  const fromHome = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+  if (fromHome && APP_URL.startsWith('https://')) {
+    setTimeout(() => { location.href = APP_URL; }, 400);
+  } else {
+    document.getElementById('msg').textContent = 'กดปุ่มด้านล่างเพื่อเข้าระบบ';
+    document.getElementById('howto').hidden = false;
+  }
 </script>
 </body>
 </html>
